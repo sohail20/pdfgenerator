@@ -8,7 +8,7 @@ app.use(cors())
 app.post('/api/download-pdf', async (req, res) => {
     try {
         console.log("initializing")
-        const browser = await puppeteer.launch({ headless: 'new' });
+        const browser = await puppeteer.launch({ headless: 'new', executablePath: '/usr/bin/chromium-browser' });
         console.log("browser", browser)
         const page = await browser.newPage();
         const url = 'https://dev.the.akdn/en/resources-media/whats-new/news-release/un-deputy-secretary-general-calls-global-action-address-inequality-2019-pluralism?loadimages=true'; // Replace with your desired URL
