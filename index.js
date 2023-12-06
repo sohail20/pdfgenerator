@@ -10,10 +10,7 @@ app.post('/api/download-pdf', async (req, res) => {
         console.log("initializing")
         // const browser = await puppeteer.launch({ headless: 'new', executablePath: '/usr/bin/chromium-browser' });
         const browser = await puppeteer.launch(
-            {
-                headless: false,
-                args: ["--no-sandbox"]
-            }
+            {ignoreDefaultArgs: ['--disable-extensions']}
         );
 
         console.log("browser", browser)
