@@ -9,7 +9,7 @@ app.post('/api/download-pdf', async (req, res) => {
     try {
         console.log("initializing")
         // const browser = await puppeteer.launch({ headless: 'new', executablePath: '/usr/bin/chromium-browser' });
-        const browser = await puppeteer.launch({ headless: 'new' });
+        const browser = await puppeteer.launch({ headless: 'new', executablePath: '/usr/bin/chromium-browser' });
 
         console.log("browser", browser)
         const page = await browser.newPage();
