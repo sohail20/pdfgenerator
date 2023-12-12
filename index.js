@@ -4,7 +4,7 @@ const cors = require("cors")
 const puppeteer = require("puppeteer")
 const axios = require("axios")
 
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 3001;
 app.use(cors())
 
 app.get('/fetch-content', async (req, res) => {
