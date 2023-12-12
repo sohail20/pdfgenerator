@@ -2,8 +2,21 @@ const express = require('express');
 const app = express();
 const cors = require("cors")
 const puppeteer = require("puppeteer")
+const axios = require("axios")
+
 const port = process.env.PORT || 3001;
 app.use(cors())
+
+app.get('/fetch-content', async (req, res) => {
+    try {
+        const response = await axios.get('https://the.akdn/en/resources-media/whats-new/news-release/prince-rahim-aga-khan-joins-world-leaders-at-cop28');
+        res.send(response.data);
+    } catch (error) {
+        console.error('Error fetching content:', error);
+        res.status(500).send('Error fetching content');
+    }
+});
+
 // Define a basic route
 app.post('/api/download-pdf', async (req, res) => {
     try {
