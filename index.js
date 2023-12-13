@@ -40,6 +40,22 @@ async function autoScroll(page) {
                 }
             }, 100);
         });
+
+        // Scroll back to the top
+        await new Promise((resolve) => {
+            var totalHeight = document.body.scrollHeight;
+            var distance = 100;
+
+            var timer = setInterval(() => {
+                window.scrollBy(0, -distance);
+                totalHeight -= distance;
+
+                if (totalHeight <= 0) {
+                    clearInterval(timer);
+                    resolve();
+                }
+            }, 100);
+        });
     });
 }
 
@@ -47,19 +63,19 @@ async function autoScroll(page) {
 app.post('/api/download-pdf', async (req, res) => {
     try {
         console.log("initializing")
-        const browser = await puppeteer.launch({ headless: 'new', executablePath: '/usr/bin/chromium-browser' });
-        // const browser = await puppeteer.launch({ headless: 'new' });
+        // const browser = await puppeteer.launch({ headless: 'new', executablePath: '/usr/bin/chromium-browser' });
+        const browser = await puppeteer.launch({ headless: 'new' });
         // , executablePath: '/usr/bin/chromium-browser' 
         console.log("browser", browser)
         const page = await browser.newPage();
         const url = 'https://the.akdn/en/resources-media/whats-new/news-release/prince-rahim-aga-khan-joins-world-leaders-at-cop28'; // Replace with your desired URL
         await page.authenticate({ 'username': 'dev-akdn', 'password': 'AKDN@#$%' });
         await page.goto(url, { waitUntil: 'networkidle0' });
-        await page.setViewport({
-            width: 1200,
-            height: 2000
-        });
-        await autoScroll(page);
+        // await page.setViewport({
+        //     width: 1200,
+        //     height: 2000
+        // });
+        // await autoScroll(page);
 
         // Set the path and options for PDF generation
         const pdfOptions = {
