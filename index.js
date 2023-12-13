@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require("cors")
+const chromium = require('chrome-aws-lambda');
 const puppeteer = require("puppeteer")
 const axios = require("axios")
 
@@ -23,6 +24,50 @@ app.get('/fetch-content', async (req, res) => {
         res.status(500).send('Error fetching content');
     }
 });
+
+async function createPdf(pageUrl) {
+    try {
+        const browser = await chromium.puppeteer.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath,
+            headless: chromium.headless,
+            ignoreHTTPSErrors: true,
+        });
+        // open a page in the browser
+        // console.log(browser);
+        const page = await browser.newPage();
+        // set the HTTP Basic Authentication credential
+        await page.authenticate({ 'username': 'dev-akdn', 'password': 'AKDN@#$%' });
+        // console.log(process.env.HTACCESS_USERNAME, process.env.HTACCESS_PASSWORD);
+        // visit the printable version of your page
+        await page.goto(pageUrl, { waitUntil: 'networkidle0' });
+
+        // update styles before creating pdf
+        await page.addStyleTag({
+            content: `
+        .print-relatedSuggestions{
+            display: none !important;
+        }
+        .print-header-menu{
+            display: none !important;
+        }
+        .print-header-logo img{
+            height: 72px !important;
+        }
+        `,
+        });
+        // generate the PDF
+        const pdf = await page.pdf({ format: 'A4' });
+        // don't forget to close the browser. Otherwise, it may cause performances issues or the server may even crash..
+        await browser.close();
+
+        return pdf
+    } catch (error) {
+        console.log("createPdf", error)
+    }
+    return false
+}
 
 async function autoScroll(page) {
     await page.evaluate(async () => {
@@ -89,6 +134,25 @@ app.post('/api/download-pdf', async (req, res) => {
         res.setHeader('Content-disposition', 'inline; filename="download.pdf"');
         res.setHeader('Content-Type', 'application/pdf');
         res.end(pdf);
+    } catch (error) {
+        console.log("error", error)
+        // loggerFunction("createPdf", error)
+    }
+});
+
+app.post('/api/download-pdf-lambda', async (req, res) => {
+    try {
+        let body = req.body
+        try {
+            body = JSON.parse(body)
+        } catch (error) {
+            body = body
+        }
+        let pageUrl = (body && body.url) ? body.url : ""
+        const pdf = await createPdf("https://the.akdn/en/resources-media/whats-new/news-release/prince-rahim-aga-khan-joins-world-leaders-at-cop28");
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Length', pdf.length);
+        res.send(pdf)
     } catch (error) {
         console.log("error", error)
         // loggerFunction("createPdf", error)
