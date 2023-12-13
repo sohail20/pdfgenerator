@@ -7,12 +7,12 @@ const axios = require("axios")
 const port = process.env.PORT || 3001;
 app.use(cors())
 
-// app.use(function (req, res, next) {
-//     res.header('Access-Control-Allow-Origin', 'https://master.d2q6u9m5y09j4z.amplifyapp.com');
-//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-//     res.header('Access-Control-Allow-Headers', 'Content-Type');
-//     next();
-// });
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'https://master.d2q6u9m5y09j4z.amplifyapp.com');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
 
 app.get('/fetch-content', async (req, res) => {
     try {
