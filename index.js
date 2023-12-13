@@ -71,11 +71,11 @@ app.post('/api/download-pdf', async (req, res) => {
         const url = 'https://the.akdn/en/resources-media/whats-new/news-release/prince-rahim-aga-khan-joins-world-leaders-at-cop28'; // Replace with your desired URL
         await page.authenticate({ 'username': 'dev-akdn', 'password': 'AKDN@#$%' });
         await page.goto(url, { waitUntil: 'networkidle0' });
-        // await page.setViewport({
-        //     width: 1200,
-        //     height: 2000
-        // });
-        // await autoScroll(page);
+        await page.setViewport({
+            width: 1200,
+            height: 2000
+        });
+        await autoScroll(page);
 
         // Set the path and options for PDF generation
         const pdfOptions = {
