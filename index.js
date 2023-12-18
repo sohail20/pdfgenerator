@@ -10,12 +10,12 @@ const port = process.env.PORT || 3001;
 app.use(cors())
 app.use(bodyParser.json());
 
-app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'https://master.d2q6u9m5y09j4z.amplifyapp.com');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
+// app.use(function (req, res, next) {
+//     res.header('Access-Control-Allow-Origin', 'https://master.d2q6u9m5y09j4z.amplifyapp.com');
+//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//     res.header('Access-Control-Allow-Headers', 'Content-Type');
+//     next();
+// });
 
 app.get('/fetch-content', async (req, res) => {
     try {
@@ -115,7 +115,7 @@ app.post('/api/download-pdf', async (req, res) => {
         const browser = await puppeteer.launch({ headless: 'new', executablePath: '/usr/bin/chromium-browser' });
         // const browser = await puppeteer.launch({ headless: 'new' });
         // , executablePath: '/usr/bin/chromium-browser' 
-        console.log("browser", browser)
+        console.log("browser", "https://dev.the.akdn" + url, browser)
         const page = await browser.newPage();
         //const url = 'https://the.akdn/en/resources-media/whats-new/news-release/un-deputy-secretary-general-calls-global-action-address-inequality-2019-pluralism?loadimages=true'; // Replace with your desired URL
         await page.authenticate({ 'username': 'dev-akdn', 'password': 'AKDN@#$%' });
