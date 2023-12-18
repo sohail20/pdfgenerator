@@ -110,7 +110,7 @@ async function autoScroll(page) {
 app.post('/api/download-pdf', async (req, res) => {
     try {
         console.log("initializing")
-        const url = req.body.url
+        const url = req.body
         console.log("url", url)
         if (!url) return res.status(404).send({ message: "url not found" })
         const browser = await puppeteer.launch({ headless: 'new', executablePath: '/usr/bin/chromium-browser' });
