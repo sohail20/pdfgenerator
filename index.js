@@ -111,6 +111,7 @@ app.post('/api/download-pdf', async (req, res) => {
     try {
         console.log("initializing")
         const url = req.body.url
+        console.log("req.body", req.body)
         if (!url) return res.status(404).send({ message: "url not found" })
         const browser = await puppeteer.launch({ headless: 'new', executablePath: '/usr/bin/chromium-browser' });
         // const browser = await puppeteer.launch({ headless: 'new' });
