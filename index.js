@@ -4,9 +4,11 @@ const cors = require("cors")
 const chromium = require('chrome-aws-lambda');
 const puppeteer = require("puppeteer")
 const axios = require("axios")
+const bodyParser = require('body-parser');
 
 const port = process.env.PORT || 3001;
 app.use(cors())
+app.use(bodyParser.json());
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', 'https://master.d2q6u9m5y09j4z.amplifyapp.com');
