@@ -111,7 +111,7 @@ app.post('/api/download-pdf', async (req, res) => {
     try {
         console.log("initializing")
         const url = req.body.url
-        if(!url) return res.status(404).send({message:"url not found"})
+        if (!url) return res.status(404).send({ message: "url not found" })
         const browser = await puppeteer.launch({ headless: 'new', executablePath: '/usr/bin/chromium-browser' });
         // const browser = await puppeteer.launch({ headless: 'new' });
         // , executablePath: '/usr/bin/chromium-browser' 
@@ -119,7 +119,7 @@ app.post('/api/download-pdf', async (req, res) => {
         const page = await browser.newPage();
         //const url = 'https://the.akdn/en/resources-media/whats-new/news-release/un-deputy-secretary-general-calls-global-action-address-inequality-2019-pluralism?loadimages=true'; // Replace with your desired URL
         await page.authenticate({ 'username': 'dev-akdn', 'password': 'AKDN@#$%' });
-        await page.goto(url, { waitUntil: 'networkidle0' });
+        await page.goto("https://the.akdn" + url, { waitUntil: 'networkidle0' });
         await page.setViewport({
             width: 1200,
             height: 2000
