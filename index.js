@@ -119,7 +119,7 @@ app.post('/api/download-pdf', async (req, res) => {
         const page = await browser.newPage();
         //const url = 'https://the.akdn/en/resources-media/whats-new/news-release/un-deputy-secretary-general-calls-global-action-address-inequality-2019-pluralism?loadimages=true'; // Replace with your desired URL
         await page.authenticate({ 'username': 'dev-akdn', 'password': 'AKDN@#$%' });
-        await page.goto("https://the.akdn" + url, { waitUntil: 'networkidle0' });
+        await page.goto("https://dev.the.akdn" + url, { waitUntil: 'networkidle0' });
         await page.setViewport({
             width: 1200,
             height: 2000
