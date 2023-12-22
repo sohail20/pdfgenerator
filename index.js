@@ -118,6 +118,8 @@ app.post('/api/download-pdf', async (req, res) => {
         // , executablePath: '/usr/bin/chromium-browser' 
         console.log("browser", "https://dev.the.akdn" + url, browser)
         const page = await browser.newPage();
+        console.log("page", page)
+
         //const url = 'https://the.akdn/en/resources-media/whats-new/news-release/un-deputy-secretary-general-calls-global-action-address-inequality-2019-pluralism?loadimages=true'; // Replace with your desired URL
         await page.authenticate({ 'username': 'dev-akdn', 'password': 'AKDN@#$%' });
         await page.goto("https://dev.the.akdn" + url, { waitUntil: 'networkidle0' });
